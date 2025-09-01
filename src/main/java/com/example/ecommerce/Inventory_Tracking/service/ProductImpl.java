@@ -6,6 +6,7 @@ import com.example.ecommerce.Inventory_Tracking.mapper.ProductMapper;
 import com.example.ecommerce.Inventory_Tracking.repository.ProductRepository;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,13 +36,13 @@ public ProductImpl(ProductRepository productRepository){
 
     @Override
     public ProductDto getProductById(Long styleId) {
-    Product product = productRepository.findById(styleId).orElseThrow(()-> new ConfigDataResourceNotFoundException("Product not available in this styleId "+styleId));
+    Product product = productRepository.findById(styleId).orElseThrow(()-> new ResourceNotFoundException("Product not available in this styleId "+styleId));
         return ProductMapper.mapToProductDto(product);
     }
 
     @Override
     public ProductDto updateProduct(Long styleId, ProductDto productDto) {
-    Product existingProd = productRepository.findById(styleId).orElseThrow(()->new ConfigDataResourceNotFoundException());
+    Product existingProd = productRepository.findById(styleId).orElseThrow(()->new ResourceNotFoundException("Product not available in this styleId" +styleId));
     existingProd.setArticle(productDto.getArticle());
     existingProd.setBrand(productDto.getBrand());
     existingProd.setStyleId(productDto.getStyleId());
@@ -52,6 +53,12 @@ public ProductImpl(ProductRepository productRepository){
     existingProd.setCategory(productDto.getCategory());
     Product updatedProd = productRepository.save(existingProd);
     return ProductMapper.mapToProductDto(updatedProd);
+    }
+
+    @Override
+    public void deleteProduct(Long styleId) {
+    Product existingProd = productRepository.findById(styleId).orElseThrow(()-> new ResourceNotFoundException("Product not available in this styleId " +styleId));
+    productRepository.delete(existingProd);
     }
 
 

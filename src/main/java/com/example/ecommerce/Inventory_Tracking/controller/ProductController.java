@@ -20,28 +20,29 @@ public class ProductController {
         this.productService = productService;
     }
 
-@PostMapping
+    @PostMapping
     public ResponseEntity<ProductDto> createProduct (@RequestBody ProductDto productDto){
-        ProductDto savedProduct = productService.createProduct(productDto);
+
+        Product saveProd = productService.createProduct(productDto);
         return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
-}
-@GetMapping
+    }
+    @GetMapping
     public ResponseEntity<List<ProductDto>> getAllProducts(){
         List<ProductDto> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
-}
-@GetMapping("/{id}")
+    }
+    @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProductByStyleId(@PathVariable Long styleId){
         ProductDto getProductByStyleID = productService.getProductById(styleId);
         return ResponseEntity.ok(getProductByStyleID);
-}
-@PutMapping("/{id}")
+    }
+    @PutMapping("/{id}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") Long styleId, @RequestBody ProductDto productDto){
         ProductDto updatedProduct = productService.updateProduct(styleId,productDto);
         return new ResponseEntity<>(updatedProduct,HttpStatus.OK);
-}
+    }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteByStyleeeId(@PathVariable("id") Long styleId){
+    public ResponseEntity<String> deleteByStyleId(@PathVariable("id") Long styleId){
         productService.deleteProduct(styleId);
         return ResponseEntity.ok("Delete successfully");
     }

@@ -40,10 +40,6 @@ public class ProductController {
         ProductDto updatedProduct = productService.updateProduct(styleId,productDto);
         return new ResponseEntity<>(updatedProduct,HttpStatus.OK);
 }
-@DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteByStyleId(@PathVariable("id") Long styleId){
-        productService.deleteProduct(styleId);
-        return ResponseEntity.ok("Delete successfully");
-}
+
 
 }
